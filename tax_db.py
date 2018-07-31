@@ -15,9 +15,11 @@ class TaxDB:
     def get_transactions(self, account, side):
         try:
             if side == "buy":
-                self.cursor.execute(f"""SELECT * FROM transactions WHERE "recipientId" = '{account}'""")
+                self.cursor.execute(f"""SELECT "timestamp", "amount", "fee" FROM transactions WHERE "recipientId" = '{
+                account}'""")
             else:
-                self.cursor.execute(f"""SELECT * FROM transactions WHERE "senderId" = '{account}'""")
+                self.cursor.execute(f"""SELECT "timestamp", "amount", "fee" FROM transactions WHERE "senderId" = '{
+                account}'""")
             return self.cursor.fetchall()
         except Exception as e:
             print(e)
