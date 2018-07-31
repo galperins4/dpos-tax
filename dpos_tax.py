@@ -8,17 +8,17 @@ test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
 epoch = 1490101200
 atomic = 100000000
 
-def get_market_price(ts,v)
+def get_market_price(ts,v):
     url = 'https://min-api.cryptocompare.com/data/pricehistorical'
     fsym = 'ARK'
     tsyms = 'USD'
 
-    adj_tx = ts+epoch
+    adj_ts = ts+epoch
 
     # set request params
     params = {"fsym": fsym,
               "tsyms": tsyms,
-              "ts": ts}
+              "ts": adj_ts}
 
     r = requests.get(url, params=params)
     price = r.json()['ARK']['USD']
