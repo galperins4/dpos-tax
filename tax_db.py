@@ -14,7 +14,7 @@ class TaxDB:
 
     def get_transactions(self, account, side):
         try:
-            if side = "buy":
+            if side == "buy":
                 self.cursor.execute(f"""SELECT * FROM transactions WHERE "recipientId" = {account}""")
             else:
                 self.cursor.execute(f"""SELECT * FROM transactions WHERE "senderId" = {account}""")
