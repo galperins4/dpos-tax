@@ -5,8 +5,27 @@ test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
 
 
 def buy(acct):
+    buy_orders = []
+    counter = 1
     s = "buy"
-    return taxdb.get_transactions(acct, s)
+    buys = taxdb.get_transactions(acct, s)
+
+    for i in buys:
+        # add attributes timestamp, total amount, tax lot
+        ts = i[0]
+        total_amt = i[1]+i[2]
+        tax_lot = counter
+
+        # create order record including
+        t = [ts, total_amt, tax_lot, total_amt]
+
+        # append to buy_orders
+        buy_orders.append(t)
+
+        # increment counter
+        counter +=1
+
+    return buy_orders
 
 def sell(acct):
     s = "sell"
