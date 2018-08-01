@@ -7,7 +7,7 @@ import datetime
 taxdb = TaxDB('ark_mainnet', 'username', 'password')
 
 test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
-epoch = 1490101200
+epoch = 1490119200
 atomic = 100000000
 tax_rate = 0.24
 
