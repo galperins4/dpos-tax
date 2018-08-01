@@ -37,7 +37,7 @@ def create_buy_records(b):
         order_amt = i[1] / atomic
         tax_lot = counter
         price = get_market_price(ts)
-        market_value = price * total_amount
+        market_value = price * order_amt
         convert_ts = convert_timestamp((ts+epoch))
         withold = market_value * tax_rate
 
