@@ -36,7 +36,7 @@ def create_buy_records(b):
         tax_lot = counter
         price = get_market_price(ts)
         market_value = price * order_amt
-        convert_ts = convert_timestamp((ts+['epoch']))
+        convert_ts = convert_timestamp((ts+n['epoch']))
         withold = market_value * tax_rate
 
         # create order record including
