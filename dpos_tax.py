@@ -1,4 +1,5 @@
 from tax_db import TaxDB
+import csv
 import requests
 import time
 import datetime
@@ -150,6 +151,23 @@ def gain_classification(sts, bts):
 
     return gain
 
+
+def write_csv(b,s)
+    # buy file
+    b_file = "buys.csv"
+    with open(csvfile, "w") as output:
+        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'tax', 'datetime', 'lot status']
+        writer = csv.writer(output, lineterminator='\n')
+        writer.writerow(fieldnames)
+        writer.writerows(b)
+
+    s_file = "sells.csv"
+    with open(csvfile, "w") as output:
+        fieldnames = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
+        writer = csv.writer(output, lineterminator='\n')
+        writer.writerow(fieldnames)
+        writer.writerows(s)
+
 if __name__ == '__main__':
 
     n = use_network("ark")
@@ -173,3 +191,7 @@ if __name__ == '__main__':
 
     for i in sells:
         print(i)
+
+    # output to buy and sell csv
+
+    write_csv(buys, sells)
