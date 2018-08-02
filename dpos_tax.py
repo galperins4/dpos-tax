@@ -2,12 +2,9 @@ from tax_db import TaxDB
 import requests
 import time
 import datetime
-import util.config
-
-taxdb = TaxDB('ark_mainnet', 'username', 'password')
+from util.config import use_network
 
 test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
-epoch = 1490119200
 atomic = 100000000
 tax_rate = 0.24
 year = 86400 * 365
@@ -16,7 +13,7 @@ def get_market_price(ts):
     url = 'https://min-api.cryptocompare.com/data/pricehistorical'
     fsym = 'ARK'
     tsyms = 'USD'
-    adj_ts = ts+epoch
+    adj_ts = ts+n['epoch']
 
     # set request params
     params = {"fsym": fsym,
@@ -39,7 +36,7 @@ def create_buy_records(b):
         tax_lot = counter
         price = get_market_price(ts)
         market_value = price * order_amt
-        convert_ts = convert_timestamp((ts+epoch))
+        convert_ts = convert_timestamp((ts+['epoch']))
         withold = market_value * tax_rate
 
         # create order record including
@@ -118,11 +115,12 @@ def gain_classification(sts, bts):
     return gain
 
 if __name__ == '__main__':
+
+    n = use_network("ark")
+    taxdb = TaxDB(n['database'], 'username', n['dbpassword'])
+    
     buys = buy(test_acct)
     sells = sell(test_acct)
-
-    use_network("ark")
-    quit()
 
     for i in buys:
         print(i)
