@@ -24,6 +24,13 @@ def get_market_price(ts):
     time.sleep(0.25)
     return r.json()['ARK']['USD']
 
+def buy(acct):
+    s = "buy"
+    buys = taxdb.get_transactions(acct, s)
+    buy_orders = create_buy_records(buys)
+
+    return buy_orders
+
 
 def create_buy_records(b):
     orders = []
@@ -47,29 +54,45 @@ def create_buy_records(b):
 
     return orders
 
-
-def buy(acct):
-    s = "buy"
-    buys = taxdb.get_transactions(acct, s)
-    buy_orders = create_buy_records(buys)
-
-    return buy_orders
-
 def sell(acct):
     s = "sell"
-    return taxdb.get_transactions(acct, s)
+    sells = taxdb.get_transactions(acct, s)
+    sell_orders = create_sell_records(sells)
 
+    return sell_orders
+
+def create_sell_records(s):
+    sells = []
+    for i in s:
+        ts = i[0]
+        # include fees
+        sell_amt = (i[1]+i[2]) / atomic
+        price = get_market_price(ts)
+        market_value = price * order_amt
+        convert_ts = convert_timestamp((ts + n['epoch']))
+
+        # create sell record including
+        t = [ts, sell_amt, price, market_value, convert_ts, 0, 0]
+
+        # append to buy_orders
+        sells.append(t)
+
+    return sells
 
 def convert_timestamp(ts):
     return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+'''
+def lotting(b,s):
+    for i in s:
+        # initialize cap gains
+        short_cap_gain = 0
+        long_cap_gain = 0
+        sold_quantity = i[0]
+        sold_price = i[1]
+
+
 
 def fifo(b,s):
-    # initialize cap gains
-    short_cap_gain = 0
-    long_cap_gain = 0
-
-    sold_quantity = i[0]
-    sold_price = i[1]
 
     for j in buy:
         lot_quantity = j[1]
@@ -104,7 +127,7 @@ def fifo(b,s):
             # update lot
             j[1] -= sold_quantity
             break
-
+'''
 
 def gain_classification(sts, bts):
     if (sts - bts) >= year:
@@ -123,4 +146,7 @@ if __name__ == '__main__':
     sells = sell(test_acct)
 
     for i in buys:
+        print(i)
+
+    for i in sells:
         print(i)
