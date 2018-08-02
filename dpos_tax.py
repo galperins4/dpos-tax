@@ -68,7 +68,7 @@ def create_sell_records(s):
         # include fees
         sell_amt = (i[1]+i[2]) / atomic
         price = get_market_price(ts)
-        market_value = price * order_amt
+        market_value = price * sell_amt
         convert_ts = convert_timestamp((ts + n['epoch']))
 
         # create sell record including
