@@ -39,7 +39,7 @@ def create_buy_records(b):
 
     for counter, i in enumerate(b):
         # only get type 0 transactions
-        if i[3] == 0
+        if i[3] == 0:
 
             # add attributes timestamp, total amount, tax lot
             ts = i[0]
