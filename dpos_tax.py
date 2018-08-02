@@ -54,8 +54,8 @@ def create_buy_records(b):
             # create order record including
             t = [tax_lot, ts, order_amt, price, market_value, withold, convert_ts, "open"]
 
-        # append to buy_orders
-        orders.append(t)
+            # append to buy_orders
+            orders.append(t)
 
     return orders
 
