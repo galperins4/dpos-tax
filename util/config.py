@@ -1,8 +1,5 @@
 import os
 from configparser import ConfigParser
-from datetime import datetime
-
-from crypto.exceptions import ArkNetworkSettingsException
 
 config_file = os.path.abspath('config.ini')
 
@@ -20,10 +17,9 @@ def use_network(network_name):
     global network
     network = {
         'epoch': int(settings.get(network_name, 'epoch')),
-        'database': settings.get(network_name, 'database')),
-        'dbpassword': settings.get(network_name, 'dbpassword'),
+        'database': settings.get(network_name, 'database'),
+        'dbpassword': settings.get(network_name, 'dbpassword')
     }
-
 
 def get_network():
     """Get settings for a selected network
@@ -31,7 +27,7 @@ def get_network():
         dict: network settings
     """
     if not network:
-        raise ArkNetworkSettingsException('Network has not been set')
+        pass
     return network
 
 
@@ -47,4 +43,4 @@ def set_custom_network(epoch, database, dbpassword):
         settings.add_section(section_name)
     settings.set(section_name, 'epoch', int(epoch))
     settings.set(section_name, 'database', str(database))
-    settings.set(section_name, 'dbpassword', str(dbpassword)))
+    settings.set(section_name, 'dbpassword', str(dbpassword))
