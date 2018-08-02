@@ -21,6 +21,8 @@ def use_network(network_name):
         'dbpassword': settings.get(network_name, 'dbpassword')
     }
 
+    return network
+
 def get_network():
     """Get settings for a selected network
     Returns:
