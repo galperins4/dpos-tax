@@ -2,7 +2,7 @@ from tax_db import TaxDB
 import requests
 import time
 import datetime
-
+import util.config
 
 taxdb = TaxDB('ark_mainnet', 'username', 'password')
 
@@ -10,6 +10,7 @@ test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
 epoch = 1490119200
 atomic = 100000000
 tax_rate = 0.24
+year = 86400 * 365
 
 def get_market_price(ts):
     url = 'https://min-api.cryptocompare.com/data/pricehistorical'
@@ -26,11 +27,11 @@ def get_market_price(ts):
     time.sleep(0.25)
     return r.json()['ARK']['USD']
 
+
 def create_buy_records(b):
     orders = []
-    counter = 1
 
-    for i in b:
+    for counter, i in enumerate(b):
         # add attributes timestamp, total amount, tax lot
         ts = i[0]
         # don't include fee in incoming records
@@ -42,18 +43,15 @@ def create_buy_records(b):
         withold = market_value * tax_rate
 
         # create order record including
-        t = [tax_lot, ts, order_amt, price, market_value, withold, convert_ts]
+        t = [tax_lot, ts, order_amt, price, market_value, withold, convert_ts, "open"]
 
         # append to buy_orders
         orders.append(t)
 
-        # increment counter
-        counter += 1
-
     return orders
 
-def buy(acct):
 
+def buy(acct):
     s = "buy"
     buys = taxdb.get_transactions(acct, s)
     buy_orders = create_buy_records(buys)
@@ -64,12 +62,67 @@ def sell(acct):
     s = "sell"
     return taxdb.get_transactions(acct, s)
 
+
 def convert_timestamp(ts):
     return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+
+def fifo(b,s):
+    # initialize cap gains
+    short_cap_gain = 0
+    long_cap_gain = 0
+
+    sold_quantity = i[0]
+    sold_price = i[1]
+
+    for j in buy:
+        lot_quantity = j[1]
+        # check if lot has been used up
+        if lot_quantity == 0:
+            pass
+
+        # check to see if another lot needs relief
+        elif sold_quantity > lot_quantity:
+            cap_gain = (i[1] - j[2]) * lot_quantity
+            gain_type = gain_classification(i[3], j[4])
+            if gain_type == "st":
+                short_cap_gain += cap_gain
+            else:
+                long_cap_gain += cap_gain
+
+            # update lot
+            j[1] -= lot_quantity
+
+            # update remaining sell amount
+            sold_quantity -= lot_quantity
+
+        else:
+            cap_gain = (i[1] - j[2]) * sold_quantity
+
+            gain_type = gain_classification(i[3], j[4])
+            if gain_type == "st":
+                short_cap_gain += cap_gain
+            else:
+                long_cap_gain += cap_gain
+
+            # update lot
+            j[1] -= sold_quantity
+            break
+
+
+def gain_classification(sts, bts):
+    if (sts - bts) >= year:
+        gain = "lt"
+    else:
+        gain = "st"
+
+    return gain
 
 if __name__ == '__main__':
     buys = buy(test_acct)
     sells = sell(test_acct)
+
+    use_network("ark")
+    quit()
 
     for i in buys:
         print(i)
