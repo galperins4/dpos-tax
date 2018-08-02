@@ -9,6 +9,7 @@ atomic = 100000000
 tax_rate = 0.24
 year = 86400 * 365
 
+
 def get_market_price(ts):
     url = 'https://min-api.cryptocompare.com/data/pricehistorical'
     fsym = 'ARK'
@@ -23,6 +24,7 @@ def get_market_price(ts):
     r = requests.get(url, params=params)
     time.sleep(0.25)
     return r.json()['ARK']['USD']
+
 
 def buy(acct):
     s = "buy"
@@ -54,12 +56,14 @@ def create_buy_records(b):
 
     return orders
 
+
 def sell(acct):
     s = "sell"
     sells = taxdb.get_transactions(acct, s)
     sell_orders = create_sell_records(sells)
 
     return sell_orders
+
 
 def create_sell_records(s):
     sells = []
@@ -79,55 +83,61 @@ def create_sell_records(s):
 
     return sells
 
+
 def convert_timestamp(ts):
     return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-'''
+
+
 def lotting(b,s):
+
     for i in s:
         # initialize cap gains
         short_cap_gain = 0
         long_cap_gain = 0
-        sold_quantity = i[0]
-        sold_price = i[1]
+        sold_quantity = i[1]
+        sold_price = i[2]
 
+        for j in b:
+            lot_quantity = j[2]
+            # check if lot has been used up to skip and move to next lot
+            if lot_quantity == 0:
+                pass
 
+            # check to see if another lot needs relief
+            elif sold_quantity > lot_quantity:
+                cap_gain = (sold_price - j[3]) * lot_quantity
+                gain_type = gain_classification(i[0], j[1])
+                if gain_type == "st":
+                    short_cap_gain += cap_gain
+                else:
+                    long_cap_gain += cap_gain
 
-def fifo(b,s):
+                # update lot - zero out and status
+                j[1] -= lot_quantity
+                j[7] = "lot sold"
 
-    for j in buy:
-        lot_quantity = j[1]
-        # check if lot has been used up
-        if lot_quantity == 0:
-            pass
+                # update remaining sell amount
+                sold_quantity -= lot_quantity
 
-        # check to see if another lot needs relief
-        elif sold_quantity > lot_quantity:
-            cap_gain = (i[1] - j[2]) * lot_quantity
-            gain_type = gain_classification(i[3], j[4])
-            if gain_type == "st":
-                short_cap_gain += cap_gain
+            # this executes on the final lot to relieve for the sell
             else:
-                long_cap_gain += cap_gain
+                cap_gain = (sold_price - j[3]) * sold_quantity
 
-            # update lot
-            j[1] -= lot_quantity
+                gain_type = gain_classification(i[0], j[1])
+                if gain_type == "st":
+                    short_cap_gain += cap_gain
+                else:
+                    long_cap_gain += cap_gain
 
-            # update remaining sell amount
-            sold_quantity -= lot_quantity
+                # update lot and status
+                j[1] -= sold_quantity
+                j[7] = "lot partially sold"
+                break
 
-        else:
-            cap_gain = (i[1] - j[2]) * sold_quantity
+        # update capital gains for sell record
+        i[5] += short_cap_gain
+        i[6] += long_cap_gain
 
-            gain_type = gain_classification(i[3], j[4])
-            if gain_type == "st":
-                short_cap_gain += cap_gain
-            else:
-                long_cap_gain += cap_gain
-
-            # update lot
-            j[1] -= sold_quantity
-            break
-'''
 
 def gain_classification(sts, bts):
     if (sts - bts) >= year:
@@ -145,6 +155,16 @@ if __name__ == '__main__':
     buys = buy(test_acct)
     sells = sell(test_acct)
 
+    print("before lotting")
+    for i in buys:
+        print(i)
+
+    for i in sells:
+        print(i)
+
+    lotting(buys, sells)
+
+    print("after lotting")
     for i in buys:
         print(i)
 
