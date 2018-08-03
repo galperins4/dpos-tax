@@ -133,8 +133,8 @@ def lotting(b,s):
                     long_cap_gain += cap_gain
 
                 # update lot and status
-                j[2] -= sold_quantity
-                j[8] = "lot partially sold"
+                j[8] -= sold_quantity
+                j[7] = "lot partially sold"
                 break
 
         # update capital gains for sell record
