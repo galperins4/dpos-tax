@@ -47,11 +47,11 @@ def create_buy_records(b):
         price = get_market_price(ts)
         market_value = round((price * (order_amt/atomic)),2)
         convert_ts = convert_timestamp((ts+n['epoch']))
-        income = market_value
+        classify = "buy"
         remain = order_amt
 
         # create order record including
-        t = [tax_lot, ts, order_amt, price, market_value, income, convert_ts, "open", remain]
+        t = [tax_lot, ts, order_amt, price, market_value, classify, convert_ts, "open", remain]
 
         # append to buy_orders
         orders.append(t)
@@ -157,7 +157,7 @@ def write_csv(b,s):
     # buy file
     b_file = "buys.csv"
     with open(b_file, "w") as output:
-        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'staking income', 'datetime', 'lot status', 'remaining_qty']
+        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(b)
