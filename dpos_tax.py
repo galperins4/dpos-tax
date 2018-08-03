@@ -39,24 +39,22 @@ def create_buy_records(b):
     orders = []
 
     for counter, i in enumerate(b):
-        # only get type 0 transactions
-        if i[3] == 0:
 
-            # add attributes timestamp, total amount, tax lot
-            ts = i[0]
-            # don't include fee in incoming records
-            order_amt = i[1] / atomic
-            tax_lot = counter
-            price = get_market_price(ts)
-            market_value = price * order_amt
-            convert_ts = convert_timestamp((ts+n['epoch']))
-            withold = market_value * tax_rate
+        # add attributes timestamp, total amount, tax lot
+        ts = i[0]
+        # don't include fee in incoming records
+        order_amt = i[1] / atomic
+        tax_lot = counter
+        price = get_market_price(ts)
+        market_value = price * order_amt
+        convert_ts = convert_timestamp((ts+n['epoch']))
+        withold = market_value * tax_rate
 
-            # create order record including
-            t = [tax_lot, ts, order_amt, price, market_value, withold, convert_ts, "open"]
+        # create order record including
+        t = [tax_lot, ts, order_amt, price, market_value, withold, convert_ts, "open"]
 
-            # append to buy_orders
-            orders.append(t)
+        # append to buy_orders
+        orders.append(t)
 
     return orders
 
