@@ -177,23 +177,10 @@ if __name__ == '__main__':
     
     buys = buy(test_acct)
     sells = sell(test_acct)
-
-    print("before lotting")
-    for i in buys:
-        print(i)
-
-    for i in sells:
-        print(i)
-
     lotting(buys, sells)
 
-    print("after lotting")
-    for i in buys:
-        print(i)
-
-    for i in sells:
-        print(i)
-
-    # output to buy and sell csv
-
-    write_csv(buys, sells)
+    # output to buy and sell csv 
+    # write_csv(buys, sells)
+    
+    bleh = taxdb.get_delegates()
+    print(bleh)
