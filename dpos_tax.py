@@ -92,7 +92,7 @@ def convert_timestamp(ts):
 
 def lotting(b,s):
     # create new list for buys
-    tmp = b[:]
+    tmp = [x[:] for x in b]
 
     for i in s:
         # initialize cap gains
