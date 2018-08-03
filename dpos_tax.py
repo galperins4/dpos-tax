@@ -93,6 +93,8 @@ def convert_timestamp(ts):
 
 
 def lotting(b,s):
+    # create new list for buys
+    tmp = b.copy()
 
     for i in s:
         # initialize cap gains
@@ -101,7 +103,7 @@ def lotting(b,s):
         sold_quantity = i[1]
         sold_price = i[2]
 
-        for j in b:
+        for j in tmp:
             lot_quantity = j[2]
             # check if lot has been used up to skip and move to next lot
             if lot_quantity == 0:
