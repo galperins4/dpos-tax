@@ -16,7 +16,7 @@ class TaxDB:
         try:
             if side == "buy":
                 self.cursor.execute(f"""SELECT "timestamp", "amount", "fee", "type" FROM transactions WHERE "recipientId" = '{
-                account}' ORDER BY "timestamp" ASC""")
+                account}', "type" = {0} ORDER BY "timestamp" ASC""")
             else:
                 self.cursor.execute(f"""SELECT "timestamp", "amount", "fee" FROM transactions WHERE "senderId" = '{
                 account}'ORDER BY "timestamp" ASC""")
