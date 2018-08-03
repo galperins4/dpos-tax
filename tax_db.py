@@ -23,3 +23,15 @@ class TaxDB:
             return self.cursor.fetchall()
         except Exception as e:
             print(e)
+            
+    def get_delegates(self):
+        try:
+            self.cursor.execute(f"""SELECT DISTINCT "dependentId" FROM mem_accounts2delegates""")
+            return self.cursor.fetchall()
+        except Exception as e:
+            print(e)
+            
+            
+            
+            
+            
