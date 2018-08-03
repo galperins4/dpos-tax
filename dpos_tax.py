@@ -46,9 +46,9 @@ def create_buy_records(b):
         order_amt = i[1]
         tax_lot = counter
         price = get_market_price(ts)
-        market_value = price * (order_amt/atomic)
+        market_value = round((price * (order_amt/atomic)),2)
         convert_ts = convert_timestamp((ts+n['epoch']))
-        withold = market_value * tax_rate
+        withold = round((market_value * tax_rate),2)
         remain = order_amt
 
         # create order record including
@@ -108,7 +108,7 @@ def lotting(b,s):
 
             # check to see if another lot needs relief
             elif sold_quantity > lot_quantity:
-                cap_gain = (sold_price - j[3]) * (lot_quantity/atomic)
+                cap_gain = round(((sold_price - j[3]) * (lot_quantity/atomic)),2)
                 gain_type = gain_classification(i[0], j[1])
                 if gain_type == "st":
                     short_cap_gain += cap_gain
@@ -124,7 +124,7 @@ def lotting(b,s):
 
             # this executes on the final lot to relieve for the sell
             else:
-                cap_gain = (sold_price - j[3]) * (sold_quantity/atomic)
+                cap_gain = round(((sold_price - j[3]) * (sold_quantity/atomic)),2)
 
                 gain_type = gain_classification(i[0], j[1])
                 if gain_type == "st":
