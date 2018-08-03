@@ -134,7 +134,10 @@ def lotting(b,s):
 
                 # update lot and status
                 j[8] -= sold_quantity
-                j[7] = "lot partially sold"
+                if j[8] == 0:
+                    j[7] = "lot sold"
+                else:
+                    j[7] = "lot partially sold"
                 break
 
         # update capital gains for sell record
