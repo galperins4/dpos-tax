@@ -43,15 +43,16 @@ def create_buy_records(b):
         # add attributes timestamp, total amount, tax lot
         ts = i[0]
         # don't include fee in incoming records
-        order_amt = i[1] / atomic
+        order_amt = i[1]
         tax_lot = counter
         price = get_market_price(ts)
-        market_value = price * order_amt
+        market_value = price * (order_amt/atomic)
         convert_ts = convert_timestamp((ts+n['epoch']))
         withold = market_value * tax_rate
+        remain = order_amt
 
         # create order record including
-        t = [tax_lot, ts, order_amt, price, market_value, withold, convert_ts, "open"]
+        t = [tax_lot, ts, order_amt, price, market_value, withold, convert_ts, "open", remain]
 
         # append to buy_orders
         orders.append(t)
@@ -72,9 +73,9 @@ def create_sell_records(s):
     for i in s:
         ts = i[0]
         # include fees
-        sell_amt = (i[1]+i[2]) / atomic
+        sell_amt = (i[1]+i[2])
         price = get_market_price(ts)
-        market_value = price * sell_amt
+        market_value = price *(sell_amt/atomic)
         convert_ts = convert_timestamp((ts + n['epoch']))
 
         # create sell record including
@@ -91,8 +92,6 @@ def convert_timestamp(ts):
 
 
 def lotting(b,s):
-    # create new list for buys
-    tmp = [x[:] for x in b]
 
     for i in s:
         # initialize cap gains
@@ -101,8 +100,8 @@ def lotting(b,s):
         sold_quantity = i[1]
         sold_price = i[2]
 
-        for j in tmp:
-            lot_quantity = j[2]
+        for j in b:
+            lot_quantity = j[8]
             # check if lot has been used up to skip and move to next lot
             if lot_quantity == 0:
                 pass
@@ -117,7 +116,7 @@ def lotting(b,s):
                     long_cap_gain += cap_gain
 
                 # update lot - zero out and status
-                j[2] -= lot_quantity
+                j[8] -= lot_quantity
                 j[7] = "lot sold"
 
                 # update remaining sell amount
@@ -135,7 +134,7 @@ def lotting(b,s):
 
                 # update lot and status
                 j[2] -= sold_quantity
-                j[7] = "lot partially sold"
+                j[8] = "lot partially sold"
                 break
 
         # update capital gains for sell record
@@ -156,7 +155,7 @@ def write_csv(b,s):
     # buy file
     b_file = "buys.csv"
     with open(b_file, "w") as output:
-        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'staking income tax', 'datetime', 'lot status']
+        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'staking income tax', 'datetime', 'lot status', 'remaining_qty']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(b)
