@@ -6,7 +6,6 @@ import time
 import datetime
 from util.config import use_network
 
-#test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
 atomic = 100000000
 year = 86400 * 365
 app = Flask(__name__)
