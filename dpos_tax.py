@@ -1,3 +1,4 @@
+from flask import Flask, jsonify
 from tax_db import TaxDB
 import csv
 import requests
@@ -5,10 +6,22 @@ import time
 import datetime
 from util.config import use_network
 
-test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
+#test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
 atomic = 100000000
 year = 86400 * 365
+app = Flask(__name__)
 
+
+@app.route("/api/<acct>")
+def tax(acct):
+    out_buy, out_sell = process_taxes(acct)
+    acctDict = {"Buys": out_buy, "Sells": out_sell}
+
+    return jsonify(acctDict)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
 
 def get_market_price(ts):
     url = 'https://min-api.cryptocompare.com/data/pricehistorical'
@@ -179,37 +192,43 @@ def sell_convert(s):
     for i in s:
         i[1] = i[1]/atomic
 
-def staking_test(b):
+def staking_test(d, b):
     for i in b:
         addr = i[9]
-        result = delegate_check(addr)
+        result = delegate_check(d, addr)
 
         if result == "Yes":
             i[5] = "Staking Reward"
 
-def delegate_check(check):
+def delegate_check(d, check):
    test = "No"
 
-   for i in delegates:
+   for i in d:
        if check == i[0]:
            test = "Yes"
            break
 
    return test
 
-if __name__ == '__main__':
 
+def process_taxes(acct):
     n = use_network("ark")
     taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
     delegates = taxdb.get_delegates()
 
     # do processing
-    buys = buy(test_acct)
-    sells = sell(test_acct)
+    buys = buy(acct)
+    sells = sell(acct)
     lotting(buys, sells)
     buy_convert(buys)
     sell_convert(sells)
-    staking_test(buys)
+    staking_test(d, buys)
 
-    # output to buy and sell csv 
-    write_csv(buys, sells)
+    # output to buy and sell csv
+    #write_csv(buys, sells)
+
+    return buys, sells
+
+if __name__ == '__main__':
+    app.run(host="127.0.0.1", threaded=True)
+
