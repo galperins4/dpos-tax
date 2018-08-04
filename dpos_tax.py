@@ -182,7 +182,6 @@ def sell_convert(s):
 def staking_test(b):
     for i in b:
         addr = i[9]
-        print("address to check", addr)
         result = delegate_check(addr)
 
         if result == "Yes":
@@ -194,6 +193,7 @@ def delegate_check(check):
    for i in delegates:
        if check in i:
            test = "Yes"
+           print(test)
        break
 
    return test
