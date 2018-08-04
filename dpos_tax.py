@@ -191,8 +191,7 @@ def delegate_check(check):
    test = "No"
 
    for i in delegates:
-       print(i)
-       if check in i:
+       if check == i[0]:
            test = "Yes"
        break
 
@@ -203,7 +202,7 @@ if __name__ == '__main__':
     n = use_network("ark")
     taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
     delegates = taxdb.get_delegates()
-
+'''
     for i in delegates:
         print(i[0])
         delg = "AJiHx96wonWbauQNCcnEHA9ALNjmbu1Ztv"
@@ -212,6 +211,8 @@ if __name__ == '__main__':
             break
 
     quit()
+    '''
+
     # do processing
     buys = buy(test_acct)
     sells = sell(test_acct)
