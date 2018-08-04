@@ -205,7 +205,7 @@ if __name__ == '__main__':
     delegates = taxdb.get_delegates()
 
     for i in delegates:
-        print(i)
+        print(i[0])
 
     quit()
     # do processing
