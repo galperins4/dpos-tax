@@ -204,6 +204,10 @@ if __name__ == '__main__':
     taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
     delegates = taxdb.get_delegates()
 
+    for i in delegates:
+        print(i)
+
+    quit()
     # do processing
     buys = buy(test_acct)
     sells = sell(test_acct)
