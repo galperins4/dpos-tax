@@ -18,6 +18,7 @@ def use_network(network_name):
     network = {
         'epoch': int(settings.get(network_name, 'epoch')),
         'database': settings.get(network_name, 'database'),
+        'dbuser': settings.get(network_name, 'dbuser'),
         'dbpassword': settings.get(network_name, 'dbpassword')
     }
 
@@ -38,6 +39,7 @@ def set_custom_network(epoch, database, dbpassword):
     Args:
         epoch (int): chains epoch time
         database (str): chains database
+        dbuser (str): chains database user
         database password (str): chains database password
     """
     section_name = 'custom'
@@ -45,4 +47,5 @@ def set_custom_network(epoch, database, dbpassword):
         settings.add_section(section_name)
     settings.set(section_name, 'epoch', int(epoch))
     settings.set(section_name, 'database', str(database))
+    settings.set(section_name, 'database', str(dbuser))
     settings.set(section_name, 'dbpassword', str(dbpassword))
