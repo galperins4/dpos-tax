@@ -15,7 +15,10 @@ app = Flask(__name__)
 @app.route("/api/<acct>")
 def tax(acct):
     out_buy, out_sell = process_taxes(acct)
-    acctDict = {"Buys": out_buy, "Sells": out_sell}
+    buy_cols = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
+    sell_cols = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
+    acctDict = {"Buys": {"columns": buy_cols, "data":out_buy},
+                "Sells": {"columns": sell_cols, "data":out_sell}}
 
     return jsonify(acctDict)
 
@@ -220,7 +223,7 @@ def process_taxes(acct):
     lotting(buys, sells)
     buy_convert(buys)
     sell_convert(sells)
-    staking_test(d, buys)
+    staking_test(delegates, buys)
 
     # output to buy and sell csv
     #write_csv(buys, sells)
