@@ -26,12 +26,14 @@ class TaxDB:
             
     def get_delegates(self):
         try:
-            self.cursor.execute(f"""SELECT DISTINCT "dependentId" FROM mem_accounts2delegates""")
-            return self.cursor.fetchall()
+            self.cursor.execute(f"""SELECT * FROM delegates""")
+            delegates_addr = []
+
+            for d in self.cursor.fetchall():
+                self.cursor.execute(f"""SELECT "senderID FROM transactions WHERE "id" = '{d[1]}'""")
+
+                delegates_addr.append(self.cursor.fetchone())
+
+            return delegates_addr
         except Exception as e:
             print(e)
-            
-            
-            
-            
-            
