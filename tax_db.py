@@ -30,7 +30,7 @@ class TaxDB:
             delegates_addr = []
 
             for d in self.cursor.fetchall():
-                self.cursor.execute(f"""SELECT "senderID FROM transactions WHERE "id" = '{d[1]}'""")
+                self.cursor.execute(f"""SELECT "senderId" FROM transactions WHERE "id" = '{d[1]}'""")
 
                 delegates_addr.append(self.cursor.fetchone())
 
