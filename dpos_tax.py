@@ -169,6 +169,16 @@ def write_csv(b,s):
         writer.writerow(fieldnames)
         writer.writerows(s)
 
+def buy_convert(b):
+    for i in b:
+        i[2] = i[2]/atomic
+        i[8] = i[8]/atomic
+
+def sell_convert(s):
+    for i in s:
+        i[1] = i[1]/atomic
+
+
 if __name__ == '__main__':
 
     n = use_network("ark")
@@ -177,7 +187,11 @@ if __name__ == '__main__':
     buys = buy(test_acct)
     sells = sell(test_acct)
     lotting(buys, sells)
-    print(sells)
+    buy_convert(buys)
+    sell_convert(sells)
+
+    for i in buys:
+        print(i)
 
     # output to buy and sell csv 
     # write_csv(buys, sells)
