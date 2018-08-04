@@ -172,7 +172,7 @@ def write_csv(b,s):
 if __name__ == '__main__':
 
     n = use_network("ark")
-    taxdb = TaxDB(n['database'], 'username', n['dbpassword'])
+    taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
     
     buys = buy(test_acct)
     sells = sell(test_acct)
