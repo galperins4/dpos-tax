@@ -42,10 +42,10 @@ def create_buy_records(b):
         # add attributes timestamp, total amount, tax lot
         ts = i[0]
         # don't include fee in incoming records
-        order_amt = i[1]/atomic
+        order_amt = i[1]
         tax_lot = counter+1
         price = get_market_price(ts)
-        market_value = round((price * (order_amt)),2)
+        market_value = round((price * (order_amt/atomic)),2)
         convert_ts = convert_timestamp((ts+n['epoch']))
         classify = "buy"
         remain = order_amt
@@ -72,9 +72,9 @@ def create_sell_records(s):
     for i in s:
         ts = i[0]
         # include fees
-        sell_amt = (i[1]+i[2])/atomic
+        sell_amt = (i[1]+i[2])
         price = get_market_price(ts)
-        market_value = round((price *(sell_amt)),2)
+        market_value = round((price *(sell_amt/atomic)),2)
         convert_ts = convert_timestamp((ts + n['epoch']))
 
         # create sell record including
@@ -96,11 +96,11 @@ def lotting(b,s):
         # initialize cap gains
         short_cap_gain = 0
         long_cap_gain = 0
-        sold_quantity = i[1]*atomic
+        sold_quantity = i[1]
         sold_price = i[2]
 
         for j in b:
-            lot_quantity = j[8]*atomic
+            lot_quantity = j[8]
             # check if lot has been used up to skip and move to next lot
             if lot_quantity == 0:
                 pass
