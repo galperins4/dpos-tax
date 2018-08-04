@@ -202,7 +202,7 @@ if __name__ == '__main__':
     n = use_network("ark")
     taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
     delegates = taxdb.get_delegates()
-'''
+    '''
     for i in delegates:
         print(i[0])
         delg = "AJiHx96wonWbauQNCcnEHA9ALNjmbu1Ztv"
