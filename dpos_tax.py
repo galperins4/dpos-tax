@@ -206,6 +206,10 @@ if __name__ == '__main__':
 
     for i in delegates:
         print(i[0])
+        delg = "AJiHx96wonWbauQNCcnEHA9ALNjmbu1Ztv"
+        if delg == i[0]:
+            print("True")
+            break
 
     quit()
     # do processing
