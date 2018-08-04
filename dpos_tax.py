@@ -212,8 +212,6 @@ def delegate_check(d, check):
 
 
 def process_taxes(acct):
-    n = use_network("ark")
-    taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
     delegates = taxdb.get_delegates()
 
     # do processing
@@ -230,5 +228,8 @@ def process_taxes(acct):
     return buys, sells
 
 if __name__ == '__main__':
+    n = use_network("ark")
+    taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
+
     app.run(host="127.0.0.1", threaded=True)
 
