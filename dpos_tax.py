@@ -49,9 +49,10 @@ def create_buy_records(b):
         convert_ts = convert_timestamp((ts+n['epoch']))
         classify = "buy"
         remain = order_amt
+        sender = i[3]
 
         # create order record including
-        t = [tax_lot, ts, order_amt, price, market_value, classify, convert_ts, "open", remain]
+        t = [tax_lot, ts, order_amt, price, market_value, classify, convert_ts, "open", remain, sender]
 
         # append to buy_orders
         orders.append(t)
@@ -157,7 +158,7 @@ def write_csv(b,s):
     # buy file
     b_file = "buys.csv"
     with open(b_file, "w") as output:
-        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty']
+        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(b)
@@ -178,17 +179,37 @@ def sell_convert(s):
     for i in s:
         i[1] = i[1]/atomic
 
+def staking_test(b):
+    for i in b:
+        addr = i[9]
+        result = delegate_check(addr)
+
+        if result == "Yes":
+            i[5] = "Staking Reward"
+
+def delegate_check(check):
+   test = "No"
+
+   for i in delegates:
+       if check in i:
+           test = "Yes"
+       break
+
+    return test
 
 if __name__ == '__main__':
 
     n = use_network("ark")
     taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
-    
+    delegates = taxdb.get_delegates()
+
+    # do processing
     buys = buy(test_acct)
     sells = sell(test_acct)
     lotting(buys, sells)
     buy_convert(buys)
     sell_convert(sells)
+    staking_test(buys)
 
     for i in buys:
         print(i)
