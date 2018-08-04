@@ -191,10 +191,9 @@ def delegate_check(check):
    test = "No"
 
    for i in delegates:
-       print(i[0])
        if check == i[0]:
            test = "Yes"
-       break
+           break
 
    return test
 
