@@ -202,16 +202,6 @@ if __name__ == '__main__':
     n = use_network("ark")
     taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
     delegates = taxdb.get_delegates()
-    '''
-    for i in delegates:
-        print(i[0])
-        delg = "AJiHx96wonWbauQNCcnEHA9ALNjmbu1Ztv"
-        if delg == i[0]:
-            print("True")
-            break
-
-    quit()
-    '''
 
     # do processing
     buys = buy(test_acct)
@@ -221,8 +211,5 @@ if __name__ == '__main__':
     sell_convert(sells)
     staking_test(buys)
 
-    for i in buys:
-        print(i)
-
     # output to buy and sell csv 
-    # write_csv(buys, sells)
+    write_csv(buys, sells)
