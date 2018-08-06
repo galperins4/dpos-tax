@@ -76,7 +76,7 @@ class TaxDB:
             self.cursor.execute("SELECT address FROM delegates WHERE address = ?", (d,))
 
             if self.cursor.fetchone() is None:
-                newDelegates.append(d)
+                newDelegates.append((d,))
 
         self.executemany("INSERT INTO delegates VALUES (?)", newDelegates)
 
