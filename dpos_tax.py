@@ -21,9 +21,9 @@ def tax(acct):
                 "Sells": {"columns": sell_cols, "data":out_sell}}
 
 
-    #return render_template('reports.html', buy = out_buy, sell = out_sell)
+    return render_template('reports.html', buy = out_buy, sell = out_sell)
 
-    return jsonify(acctDict)
+    #return jsonify(acctDict)
 
 @app.route('/')
 def hello_world():
