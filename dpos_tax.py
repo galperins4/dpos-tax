@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from flask import Flask, jsonify, render_template
 from core.psql import TaxDB
 import csv
