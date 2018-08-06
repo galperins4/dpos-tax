@@ -73,7 +73,7 @@ class TaxDB:
         newDelegates=[]
 
         for d in delegates:
-            self.cursor.execute("SELECT address FROM delegates WHERE address = ?", (d[0],))
+            self.cursor.execute("SELECT address FROM delegates WHERE address = ?", (d,))
 
             if self.cursor.fetchone() is None:
                 newDelegates.append((d[0]))
