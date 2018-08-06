@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from flask import Flask, jsonify, render_template
-from core.psql import TaxDB
+from core.psql import DB
 import csv
 import requests
 import time
@@ -236,7 +236,7 @@ def process_taxes(acct):
 
 if __name__ == '__main__':
     n = use_network("ark")
-    taxdb = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
+    taxdb = DB(n['database'], n['dbuser'], n['dbpassword'])
 
     app.run(host="127.0.0.1", threaded=True)
 

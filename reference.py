@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from core.psql import TaxDB
+from core.psql import DB
+from core.taxdb import TaxDB
 from util.config import use_network
 import time
 import requests
@@ -22,7 +23,7 @@ def get_market_price(ts):
 
 if __name__ == '__main__':
     n = use_network("ark")
-    psql = TaxDB(n['database'], n['dbuser'], n['dbpassword'])
+    psql = DB(n['database'], n['dbuser'], n['dbpassword'])
     taxdb = TaxDB(n['dbuser'])
 
     #get delegates and prices
