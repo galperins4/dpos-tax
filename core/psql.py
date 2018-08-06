@@ -2,7 +2,7 @@
 import psycopg2
 
 
-class TaxDB:
+class DB:
     def __init__(self, db, u, pw):
         self.connection = psycopg2.connect(
             dbname=db,
