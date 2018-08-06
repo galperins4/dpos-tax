@@ -12,8 +12,8 @@ year = 86400 * 365
 app = Flask(__name__)
 
 
-@app.route("/<coin>/<acct>")
-def tax(coin, acct):
+@app.route("/api/<acct>")
+def tax(acct):
     out_buy, out_sell = process_taxes(acct)
     buy_cols = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
     sell_cols = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
