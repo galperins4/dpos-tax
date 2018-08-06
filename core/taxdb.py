@@ -78,7 +78,9 @@ class TaxDB:
             if self.cursor.fetchone() is None:
                 newDelegates.append((d))
 
-        self.executemany("INSERT INTO delegates VALUES (?)", [newDelegates])
+
+        print(newDelegates)
+        self.executemany("INSERT INTO delegates VALUES (?)", newDelegates)
 
         self.commit()
 
