@@ -3,7 +3,7 @@ import requests
 
 class Price:
     def __init__(self):
-        self.fsym = "ARK'
+        self.fsym = 'ARK'
         self.tsyms = 'USD,EUR'
         self.url = 'https://min-api.cryptocompare.com/data/pricehistorical'
 
