@@ -30,8 +30,8 @@ if __name__ == '__main__':
     d = psql.get_delegates()
     t = int(time.time())
     price = [get_market_price(t)]
-
-    print(d)
+    addresses = [i[0] for i in d]
+    print(addreses)
     quit()
 
     taxdb.update_prices(price)
