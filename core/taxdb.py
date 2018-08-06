@@ -39,7 +39,7 @@ class TaxDB:
 
     def setup(self):
         self.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS ark_prices (timestamp int, usd float, eur float )")
+            "CREATE TABLE IF NOT EXISTS prices (timestamp int, usd float, eur float )")
 
         self.cursor.execute(
             "CREATE TABLE IF NOT EXISTS delegates (address varchar(64) )")
