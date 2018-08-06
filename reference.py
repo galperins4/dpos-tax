@@ -28,7 +28,7 @@ if __name__ == '__main__':
     #get delegates and prices
     d = psql.get_delegates()
     t = int(time.time())
-    price = get_market_price(t)
+    price = [get_market_price(t)]
 
     taxdb.update_prices(price)
     taxdb_update_delegates(d)
