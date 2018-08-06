@@ -127,7 +127,7 @@ def lotting(b,s):
 
             # check to see if another lot needs relief
             elif sold_quantity > lot_quantity:
-                cap_gain = round(((sold_price - j[3]) * (lot_quantity/atomic)),2)
+                cap_gain = ((sold_price - j[3]) * (lot_quantity/atomic))
                 gain_type = gain_classification(i[0], j[1])
                 if gain_type == "st":
                     short_cap_gain += cap_gain
@@ -143,7 +143,7 @@ def lotting(b,s):
 
             # this executes on the final lot to relieve for the sell
             else:
-                cap_gain = round(((sold_price - j[3]) * (sold_quantity/atomic)),2)
+                cap_gain = ((sold_price - j[3]) * (sold_quantity/atomic))
 
                 gain_type = gain_classification(i[0], j[1])
                 if gain_type == "st":
