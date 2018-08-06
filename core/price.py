@@ -7,7 +7,7 @@ class Price:
         self.tsyms = 'USD,EUR'
         self.url = 'https://min-api.cryptocompare.com/data/pricehistorical'
 
-    def get_market_price(ts):
+    def get_market_price(self, ts):
         # set request params
         params = {"fsym": self.fsym,
                   "tsyms": self.tsyms,
