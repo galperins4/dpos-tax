@@ -32,7 +32,7 @@ if __name__ == '__main__':
     price = [get_market_price(t)]
 
     taxdb.update_prices(price)
-    taxdb_update_delegates(d)
+    taxdb.update_delegates(d)
 
 
 
