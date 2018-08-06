@@ -30,7 +30,7 @@
   
   <div class="container container-table">
       <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-          Tax Information</h2>
+          Buy / Lot Information</h2>
       
       <div class="table-wrapper">
         <div class="container">
@@ -98,6 +98,73 @@
         </div>
       </div>
     </div>
+	
+	<div class="container container-table">
+      <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
+          Sell / Capital Gains</h2>
+      
+      <div class="table-wrapper">
+        <div class="container">
+          <div class="row search">
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <div class="dataTables_filter">
+                  <label class="searchInfo mbr-fonts-style display-7">Search:</label>
+                  <input class="form-control input-sm" disabled="">
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container scroll">
+          <table class="table isSearch" cellspacing="0">
+            <thead>
+              <tr class="table-heads ">
+                 
+              <th class="head-item mbr-fonts-style display-7">
+                      Timestamp(Unix)</th><th class="head-item mbr-fonts-style display-7">
+                      Sell Amount</th><th class="head-item mbr-fonts-style display-7">
+					  Price</th><th class="head-item mbr-fonts-style display-7">
+					  Market Value</th><th class="head-item mbr-fonts-style display-7">
+					  DateTime</th><th class="head-item mbr-fonts-style display-7">
+					  Short Term Gain/Loss</th><th class="head-item mbr-fonts-style display-7">
+                      Long Term Gain/Loss</th></tr>
+            </thead>
+
+            <tbody>
+            {% for s in sell %}  
+				<tr> 
+					<td class="body-item mbr-fonts-style display-7">{{ s[0] }}</td>
+					<td class="body-item mbr-fonts-style display-7">{{ s[1] }}</td>
+					<td class="body-item mbr-fonts-style display-7">{{ s[2] }}</td>
+					<td class="body-item mbr-fonts-style display-7">{{ s[3] }}</td>
+					<td class="body-item mbr-fonts-style display-7">{{ s[4] }}</td>
+					<td class="body-item mbr-fonts-style display-7">{{ s[5] }}</td>
+					<td class="body-item mbr-fonts-style display-7">{{ s[6] }}</td>
+				</tr>
+				{% endfor %}
+             </tbody>
+          </table>
+        </div>
+        <div class="container table-info-container">
+          <div class="row info">
+            <div class="col-md-6">
+              <div class="dataTables_info mbr-fonts-style display-7">
+                <span class="infoBefore">Showing</span>
+                <span class="inactive infoRows"></span>
+                <span class="infoAfter">entries</span>
+                <span class="infoFilteredBefore">(filtered from</span>
+                <span class="inactive infoRows"></span>
+                <span class="infoFilteredAfter"> total entries)</span>
+              </div>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+	
 </section>
 
 
