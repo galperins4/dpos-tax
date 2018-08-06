@@ -160,8 +160,8 @@ def lotting(b,s):
                 break
 
         # update capital gains for sell record
-        i[5] += short_cap_gain
-        i[6] += long_cap_gain
+        i[5] += round(short_cap_gain,2)
+        i[6] += round(long_cap_gain,2)
 
 
 def gain_classification(sts, bts):
