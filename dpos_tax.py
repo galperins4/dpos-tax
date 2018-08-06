@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-from tax_db import TaxDB
+from core.psql import TaxDB
 import csv
 import requests
 import time
