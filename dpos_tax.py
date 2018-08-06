@@ -6,20 +6,24 @@ import time
 import datetime
 from util.config import use_network
 
+#test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
 atomic = 100000000
 year = 86400 * 365
 app = Flask(__name__)
 
 
-@app.route("/api/<acct>")
-def tax(acct):
+@app.route("/<coin>/<acct>")
+def tax(coin, acct):
     out_buy, out_sell = process_taxes(acct)
-    buy_cols = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
+    buy_cols = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
     sell_cols = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
     acctDict = {"Buys": {"columns": buy_cols, "data":out_buy},
                 "Sells": {"columns": sell_cols, "data":out_sell}}
 
-    return jsonify(acctDict)
+
+    return render_template('reports.html', buy = out_buy)
+
+    #return jsonify(acctDict)
 
 @app.route('/')
 def hello_world():
@@ -173,7 +177,7 @@ def write_csv(b,s):
     # buy file
     b_file = "buys.csv"
     with open(b_file, "w") as output:
-        fieldnames = ['tax lot', 'timstamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
+        fieldnames = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(b)
