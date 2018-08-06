@@ -56,7 +56,7 @@ class TaxDB:
             if self.cursor.fetchone() is None:
                 newPrices.append((p[0], p[1], p[2]))
 
-        self.executemany("INSERT INTO delegates VALUES (?,?,?)", newPrices)
+        self.executemany("INSERT INTO prices VALUES (?,?,?)", newPrices)
 
         self.commit()
 
