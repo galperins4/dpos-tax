@@ -31,6 +31,9 @@ if __name__ == '__main__':
     t = int(time.time())
     price = [get_market_price(t)]
 
+    print(d)
+    quit()
+
     taxdb.update_prices(price)
     taxdb.update_delegates(d)
 
