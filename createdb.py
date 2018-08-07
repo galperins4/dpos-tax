@@ -36,9 +36,4 @@ def get_offset(e):
 	
     return (e+offset)
 
-def get_timestamps(first, ts):
-		
-	
-	
-	
-	
+def get_timestamps(first, ts):						
