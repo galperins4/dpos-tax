@@ -19,5 +19,5 @@ if __name__ == "__main__":
         # price = [p.get_market_price(t)]
         addresses = [i[0] for i in d]
 
-    taxdb.update_prices(price)
-    taxdb.update_delegates(addresses)
+        taxdb.update_prices(price)
+        taxdb.update_delegates(addresses)
