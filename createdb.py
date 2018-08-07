@@ -20,8 +20,7 @@ if __name__ == "__main__":
         d = psql.get_delegates()
         p = Price()
         t = int(time.time())
-	
-	
+		
 	
 
         # price = [p.get_market_price(t)]
