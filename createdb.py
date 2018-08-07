@@ -1,5 +1,6 @@
 from core.taxdb import TaxDB
 from core.psql import DB
+from core.price import Price
 from util.config import use_network
 import os.path
 
