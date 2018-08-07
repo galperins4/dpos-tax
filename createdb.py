@@ -29,6 +29,8 @@ if __name__ == "__main__":
 
 def get_offset(epoch):
     offset = 0
-    while ((epoch+offset) % day) != 0:
-	offset +=1
+    while ((epoch+offset) % day) != 0:	
+	offset += 1
+	
+	
     
