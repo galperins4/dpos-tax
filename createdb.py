@@ -10,3 +10,14 @@ if __name__ == "__main__":
         taxdb = TaxDB(n['dbuser'])
         # initalize sqldb object
         taxdb.setup()
+        
+        #setup initial delegate and prices 
+        d = psql.get_delegates()
+        p = Price()
+        t = int(time.time())
+
+        # price = [p.get_market_price(t)]
+        addresses = [i[0] for i in d]
+
+    taxdb.update_prices(price)
+    taxdb.update_delegates(addresses)
