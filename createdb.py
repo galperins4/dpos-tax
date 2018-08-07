@@ -21,6 +21,7 @@ if __name__ == "__main__":
         p = Price()
         t = int(time.time())			
         newEpoch = get_offset(epoch)
+        timestamps = get_timestamps(newEpoch, t)
 	
         # price = [p.get_market_price(t)]
         addresses = [i[0] for i in d]
