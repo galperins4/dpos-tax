@@ -67,7 +67,7 @@ def create_buy_records(b):
         # don't include fee in incoming records
         order_amt = i[1]
         tax_lot = counter+1
-        price = get_market_price(ts)
+        price = get_market_price(ts+n['epoch'])
         market_value = round((price * (order_amt/atomic)),2)
         convert_ts = convert_timestamp((ts+n['epoch']))
         classify = "buy"
@@ -97,7 +97,7 @@ def create_sell_records(s):
         ts = i[0]
         # include fees
         sell_amt = (i[1]+i[2])
-        price = get_market_price(ts)
+        price = get_market_price(ts+n['epoch'])
         market_value = round((price *(sell_amt/atomic)),2)
         convert_ts = convert_timestamp((ts + n['epoch']))
 
