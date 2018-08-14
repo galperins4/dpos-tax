@@ -34,8 +34,7 @@ def get_db_price(ts):
 
 
     for counter, i in enumerate(p):
-        print(i[0])
-        if ts >= i[0]:
+        if i[0] >= ts:
             break
 
     print("counter", counter)
