@@ -38,6 +38,8 @@ def get_db_price(ts):
             break
 
     print("counter", counter)
+    print("price", p[counter + 1][1])
+    price = p[counter + 1][1]
 
     '''
     # check to see if tx is after last timestamp and assign last
@@ -47,7 +49,7 @@ def get_db_price(ts):
         price = p[counter + 1][1]
 
     '''
-    price = 1
+    #price = 1
 
     return price
 
