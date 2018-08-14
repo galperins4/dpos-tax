@@ -30,25 +30,28 @@ def tax(acct):
 def hello_world():
     return 'Hello, World!'
 
-def get_market_price(ts):
-    url = 'https://min-api.cryptocompare.com/data/pricehistorical'
-    fsym = 'ARK'
-    tsyms = 'USD'
-    adj_ts = ts+n['epoch']
+def get_db_price(ts):
+    p = taxdb.get_prices()
 
-    # set request params
-    params = {"fsym": fsym,
-              "tsyms": tsyms,
-              "ts": adj_ts}
 
-    r = requests.get(url, params=params)
-    time.sleep(0.25)
-    return r.json()['ARK']['USD']
+    for counter, i in enumerate(p):
+        print(i[0])
+        quit()
+
+        if ts >= i[0]:
+            break
+
+    print("counter", counter)
+    print("timestamp", ts)
+    print("db row", p[counter])
+    quit()
+
+    return price
 
 
 def buy(acct):
     s = "buy"
-    buys = taxdb.get_transactions(acct, s)
+    buys = psql.get_transactions(acct, s)
     buy_orders = create_buy_records(buys)
 
     return buy_orders
@@ -82,7 +85,7 @@ def create_buy_records(b):
 
 def sell(acct):
     s = "sell"
-    sells = taxdb.get_transactions(acct, s)
+    sells = psql.get_transactions(acct, s)
     sell_orders = create_sell_records(sells)
 
     return sell_orders
@@ -236,7 +239,8 @@ def process_taxes(acct):
 
 if __name__ == '__main__':
     n = use_network("ark")
-    taxdb = DB(n['database'], n['dbuser'], n['dbpassword'])
+    taxdb = TaxDB(n['dbuser'])
+    psql = DB(n['database'], n['dbuser'], n['dbpassword'])
 
     app.run(host="127.0.0.1", threaded=True)
 
