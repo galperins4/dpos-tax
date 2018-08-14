@@ -37,13 +37,7 @@ def get_db_price(ts):
         if i[0] >= ts:
             break
 
-    print("counter", counter)
-    print("timestamp", ts)
-    print("db row", p[counter])
-    print("next db row", p[counter+1][1])
-    quit()
-
-    return price
+    return p[counter+1][1]
 
 
 def buy(acct):
