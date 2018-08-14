@@ -30,7 +30,7 @@ def hello_world():
     return 'Hello, World!'
 
 def get_db_price(ts):
-    p = taxdb.get_prices()
+    p = taxdb.get_prices().fetchall()
 
 
     for counter, i in enumerate(p):
