@@ -219,7 +219,7 @@ def delegate_check(d, check):
 
 
 def process_taxes(acct):
-    delegates = taxdb.get_delegates()
+    delegates = taxdb.get_delegates().fetchall()
 
     # do processing
     buys = buy(acct)
