@@ -16,24 +16,33 @@ if __name__ == "__main__":
         psql = DB(n['database'], n['dbuser'], n['dbpassword'])
         taxdb.setup()
         
-        #setup initial delegate and prices 
+        #setup initial delegates
         d = psql.get_delegates()
+        addresses = [i[0] for i in d]
+        taxdb.update_delegates(addresses)
+
+        # get prices
         p = Price()
         t = int(time.time())			
         newEpoch = get_offset(epoch)
         timestamps = get_timestamps(newEpoch, t)
-	
-        # price = [p.get_market_price(t)]
-        addresses = [i[0] for i in d]
 
-        taxdb.update_prices(price)
-        taxdb.update_delegates(addresses)
-
+        for i in timestamps:
+            price = [p.get_market_price(i)]
+            taxdb.update_prices(price)
+        
 def get_offset(e):
     offset = 0
-    while ((e+offset) % day) != 0:	
-	offset += 1	
-	
+    while ((e+offset) % day) != 0:
+        offset += 1
+
     return (e+offset)
 
-def get_timestamps(first, ts):						
+def get_timestamps(first, ts):
+    l = []
+
+    while first <= ts:
+        l.append(first)
+        first += day
+
+    return l
