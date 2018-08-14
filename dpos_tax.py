@@ -32,7 +32,7 @@ def hello_world():
 def get_db_price(ts):
     p = taxdb.get_prices().fetchall()
     print("price length", len(p))
-    print(p[511])
+    print(p[510])
 
     for counter, i in enumerate(p):
         if i[0] >= ts:
