@@ -35,14 +35,13 @@ def get_db_price(ts):
 
     for counter, i in enumerate(p):
         print(i[0])
-        quit()
-
         if ts >= i[0]:
             break
 
     print("counter", counter)
     print("timestamp", ts)
     print("db row", p[counter])
+    print("next db row", p[counter+1])
     quit()
 
     return price
