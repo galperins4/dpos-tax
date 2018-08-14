@@ -3,6 +3,7 @@ from core.psql import DB
 from core.price import Price
 from util.config import use_network
 import os.path
+import time
 
 
 day = 86400
@@ -30,7 +31,7 @@ if __name__ == "__main__":
         for i in timestamps:
             price = [p.get_market_price(i)]
             taxdb.update_prices(price)
-        
+
 def get_offset(e):
     offset = 0
     while ((e+offset) % day) != 0:
