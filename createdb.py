@@ -43,7 +43,7 @@ if __name__ == "__main__":
         # get prices
         p = Price()
         t = int(time.time())
-        newEpoch = get_offset(epoch)
+        newEpoch = get_offset(n['epoch'])
         timestamps = get_timestamps(newEpoch, t)
 
         for i in timestamps:
