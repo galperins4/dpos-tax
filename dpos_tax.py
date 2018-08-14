@@ -31,13 +31,13 @@ def hello_world():
 
 def get_db_price(ts):
     p = taxdb.get_prices().fetchall()
-
-
     for counter, i in enumerate(p):
         if i[0] >= ts:
             break
 
-    return p[counter+1][1]
+    price = p[counter+1][1]
+
+    return price
 
 
 def buy(acct):
