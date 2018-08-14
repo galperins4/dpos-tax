@@ -14,9 +14,12 @@ class Price:
                   "tsyms": self.tsyms,
                   "ts": ts}
 
-        r = requests.get(self.url, params=params)
-
-        output = [ts, r.json()['ARK']['USD'], r.json()['ARK']['EUR']]
+        try:
+            r = requests.get(self.url, params=params)
+            output = [ts, r.json()['ARK']['USD'], r.json()['ARK']['EUR']]
+        except:
+            output = [ts, 0, 0]
+    
         time.sleep(0.25)
 
         return output
