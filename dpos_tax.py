@@ -38,19 +38,10 @@ def get_db_price(ts):
         if i[0] >= ts:
             break
 
-    print("counter", counter)
-    print("price", p[counter + 1][1])
-    # price = p[counter + 1][1]
-
-    '''
-    # check to see if tx is after last timestamp and assign last
-    if counter+1 > len(p):
+    if (counter+1) == len(p):
         price = p[counter][1]
     else:
         price = p[counter + 1][1]
-
-    '''
-    #price = 1
 
     return price
 
