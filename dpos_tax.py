@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 from flask import Flask, jsonify, render_template
+from core.taxdb import TaxDB
 from core.psql import DB
 import csv
-import requests
-import time
 import datetime
 from util.config import use_network
 
