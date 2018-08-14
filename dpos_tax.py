@@ -40,7 +40,7 @@ def get_db_price(ts):
     print("counter", counter)
     print("timestamp", ts)
     print("db row", p[counter])
-    print("next db row", p[counter+1])
+    print("next db row", p[counter+1][1])
     quit()
 
     return price
