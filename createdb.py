@@ -1,29 +1,10 @@
 from core.taxdb import TaxDB
 from core.psql import DB
 from core.price import Price
+from reference import get_offset, get timestamps
 from util.config import use_network
 import os.path
 import time
-
-
-day = 86400
-
-def get_offset(e):
-    offset = 0
-    while ((e+offset) % day) != 0:
-        offset += 1
-
-    return (e+offset)
-
-
-def get_timestamps(first, ts):
-    l = []
-
-    while first <= ts:
-        l.append(first)
-        first += day
-
-    return l
 
 
 if __name__ == "__main__":
