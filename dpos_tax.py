@@ -32,6 +32,7 @@ def hello_world():
 def get_db_price(ts):
     p = taxdb.get_prices().fetchall()
     print("price length", len(p))
+    print(p[511])
 
     for counter, i in enumerate(p):
         if i[0] >= ts:
@@ -39,7 +40,7 @@ def get_db_price(ts):
 
     print("counter", counter)
     print("price", p[counter + 1][1])
-    price = p[counter + 1][1]
+    # price = p[counter + 1][1]
 
     '''
     # check to see if tx is after last timestamp and assign last
