@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import requests
+import time
 
 class Price:
     def __init__(self):
@@ -16,5 +17,6 @@ class Price:
         r = requests.get(self.url, params=params)
 
         output = [ts, r.json()['ARK']['USD'], r.json()['ARK']['EUR']]
+        time.sleep(0.25)
 
         return output
