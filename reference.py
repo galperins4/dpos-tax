@@ -30,17 +30,24 @@ if __name__ == '__main__':
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
     taxdb = TaxDB(n['dbuser'])
 
-    #get delegates and prices
+    # update delegate list
     d = psql.get_delegates()
+    addresses = [i[0] for i in d]
+    taxdb.update_delegates(addresses)
+
+    # pull prices from database and get last one
+    db_prices = taxdb.get_prices().fetchall()
+    newEpoch = db_prices[-1][0]
+
+    # add new prices
     p = Price()
     t = int(time.time())
 
-    price = [p.get_market_price(t)]
-    addresses = [i[0] for i in d]
+    timestamps = get_timestamps(newEpoch, t)
 
-    taxdb.update_prices(price)
-    taxdb.update_delegates(addresses)
-
+    for i in timestamps:
+        price = [p.get_market_price(i)]
+        taxdb.update_prices(price)
 
 
 
