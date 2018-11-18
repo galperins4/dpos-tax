@@ -1,7 +1,7 @@
 from core.taxdb import TaxDB
 from core.psql import DB
 from core.price import Price
-from reference import get_offset, get timestamps
+from reference import get_offset, get_timestamps
 from util.config import use_network
 import os.path
 import time
