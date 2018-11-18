@@ -6,13 +6,13 @@ import csv
 import datetime
 from util.config import use_network
 
-#test_acct = "AMpPxXJZ7qdLbNUrVQV82ozDF2UZgHGB5L"
+test_acct = "AJqKuGjdtGpsbFdMTXXW5f9dvHDkfhjGic"
 atomic = 100000000
 year = 86400 * 365
 app = Flask(__name__)
 
 
-@app.route("/api/<acct>")
+#@app.route("/api/<acct>")
 def tax(acct):
     out_buy, out_sell = process_taxes(acct)
     buy_cols = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
@@ -21,13 +21,14 @@ def tax(acct):
                 "Sells": {"columns": sell_cols, "data":out_sell}}
 
 
-    return render_template('reports.html', buy = out_buy, sell = out_sell)
+    #return render_template('reports.html', buy = out_buy, sell = out_sell)
 
     #return jsonify(acctDict)
-
+'''
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
+'''
 
 def get_db_price(ts):
     p = taxdb.get_prices().fetchall()
@@ -228,7 +229,7 @@ def process_taxes(acct):
     staking_test(delegates, buys)
 
     # output to buy and sell csv
-    #write_csv(buys, sells)
+    write_csv(buys, sells)
 
     return buys, sells
 
@@ -236,6 +237,7 @@ if __name__ == '__main__':
     n = use_network("ark")
     taxdb = TaxDB(n['dbuser'])
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
+    tax(test_acct)
 
-    app.run(host="127.0.0.1", threaded=True)
+    #app.run(host="127.0.0.1", threaded=True)
 
