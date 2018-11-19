@@ -190,7 +190,7 @@ def write_csv(b,s, a):
 
     s_file = a+"_sells.csv"
     with open(s_file, "w") as output:
-        fieldnames = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
+        fieldnames = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain', 'receipientId']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(s)
