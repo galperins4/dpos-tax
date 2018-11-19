@@ -18,7 +18,7 @@ app = Flask(__name__)
 def tax(acct):
     out_buy, out_sell = process_taxes(acct)
     buy_cols = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
-    sell_cols = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
+    sell_cols = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain', 'recipientId']
     acctDict = {"Buys": {"columns": buy_cols, "data":out_buy},
                 "Sells": {"columns": sell_cols, "data":out_sell}}
 
@@ -101,9 +101,10 @@ def create_sell_records(s):
         price = get_db_price(ts+n['epoch'])
         market_value = round((price *(sell_amt/atomic)),2)
         convert_ts = convert_timestamp((ts + n['epoch']))
+        receiver = i[3]
 
         # create sell record including
-        t = [ts, sell_amt, price, market_value, convert_ts, 0, 0]
+        t = [ts, sell_amt, price, market_value, convert_ts, 0, 0, receiver]
 
         # append to buy_orders
         sells.append(t)
