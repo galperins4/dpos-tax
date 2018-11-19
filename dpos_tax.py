@@ -67,7 +67,7 @@ def create_buy_records(b):
         price = get_db_price(ts+n['epoch'])
         market_value = round((price * (order_amt/atomic)),2)
         convert_ts = convert_timestamp((ts+n['epoch']))
-        if i[9] in test_acct:
+        if i[3] in test_acct:
             classify = "transfer in"
         else:
             classify = "buy"
