@@ -212,6 +212,12 @@ def staking_test(d, b):
         if result == "Yes":
             i[5] = "Staking Reward"
 
+
+def transfer_out_test(s):
+    for i in s:
+        #i[7] is receiverID
+            
+            
 def delegate_check(d, check):
    test = "No"
 
@@ -233,6 +239,7 @@ def process_taxes(acct):
     buy_convert(buys)
     sell_convert(sells)
     staking_test(delegates, buys)
+    transfer_out_test(sells)
 
     # output to buy and sell csv
     write_csv(buys, sells, acct)
