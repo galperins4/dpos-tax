@@ -6,6 +6,7 @@ import csv
 import datetime
 from util.config import use_network
 
+
 test_acct = ["AJqKuGjdtGpsbFdMTXXW5f9dvHDkfhjGic"]
 exceptions = [""]
 atomic = 100000000
