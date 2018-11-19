@@ -6,7 +6,7 @@ import csv
 import datetime
 from util.config import use_network
 
-test_acct = "AJqKuGjdtGpsbFdMTXXW5f9dvHDkfhjGic"
+test_acct = ["AJqKuGjdtGpsbFdMTXXW5f9dvHDkfhjGic"]
 atomic = 100000000
 year = 86400 * 365
 app = Flask(__name__)
@@ -173,16 +173,16 @@ def gain_classification(sts, bts):
     return gain
 
 
-def write_csv(b,s):
+def write_csv(b,s, a):
     # buy file
-    b_file = "buys.csv"
+    b_file = a+"buys.csv"
     with open(b_file, "w") as output:
         fieldnames = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(b)
 
-    s_file = "sells.csv"
+    s_file = a+"sells.csv"
     with open(s_file, "w") as output:
         fieldnames = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
         writer = csv.writer(output, lineterminator='\n')
@@ -229,7 +229,7 @@ def process_taxes(acct):
     staking_test(delegates, buys)
 
     # output to buy and sell csv
-    write_csv(buys, sells)
+    write_csv(buys, sells, acct)
 
     return buys, sells
 
@@ -237,7 +237,8 @@ if __name__ == '__main__':
     n = use_network("ark")
     taxdb = TaxDB(n['dbuser'])
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
-    tax(test_acct)
+    for i in test_acct;
+        tax(i)
 
     #app.run(host="127.0.0.1", threaded=True)
 
