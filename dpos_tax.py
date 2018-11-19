@@ -238,7 +238,7 @@ if __name__ == '__main__':
     n = use_network("ark")
     taxdb = TaxDB(n['dbuser'])
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
-    for i in test_acct;
+    for i in test_acct:
         tax(i)
 
     #app.run(host="127.0.0.1", threaded=True)
