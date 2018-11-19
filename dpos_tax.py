@@ -216,8 +216,16 @@ def staking_test(d, b):
 def transfer_out_test(a, s):
     for i in s:
         #i[7] is receiverID
+        # if account matches - probably sent to self or a vote - exclude
+        if i[7] == a:
+            pass
+        # next pass is to see if it's a related account. If yes, 0 out sell record since it's a transfer out
+        else:
+            if i[7] in test_acct:
+                i[5]=0
+                i[6]=0
             
-            
+
 def delegate_check(d, check):
    test = "No"
 
