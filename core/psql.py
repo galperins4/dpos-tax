@@ -20,7 +20,7 @@ class DB:
                 self.cursor.execute(f"""SELECT "timestamp", "amount", "fee", "senderId" FROM transactions WHERE "recipientId" = '{
                 account}' AND "type" = {0} ORDER BY "timestamp" ASC""")
             else:
-                self.cursor.execute(f"""SELECT "timestamp", "amount", "fee" FROM transactions WHERE "senderId" = '{
+                self.cursor.execute(f"""SELECT "timestamp", "amount", "fee", "recipientId" FROM transactions WHERE "senderId" = '{
                 account}'ORDER BY "timestamp" ASC""")
             return self.cursor.fetchall()
         except Exception as e:
