@@ -176,14 +176,14 @@ def gain_classification(sts, bts):
 
 def write_csv(b,s, a):
     # buy file
-    b_file = a+"buys.csv"
+    b_file = a+"_buys.csv"
     with open(b_file, "w") as output:
         fieldnames = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(b)
 
-    s_file = a+"sells.csv"
+    s_file = a+"_sells.csv"
     with open(s_file, "w") as output:
         fieldnames = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain']
         writer = csv.writer(output, lineterminator='\n')
