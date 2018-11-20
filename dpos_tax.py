@@ -59,27 +59,27 @@ def create_buy_records(b):
     orders = []
 
     for counter, i in enumerate(b):
+        if i[4] not in exceptions:
+            # add attributes timestamp, total amount, tax lot
+            ts = i[0]
+            # don't include fee in incoming records
+            order_amt = i[1]
+            tax_lot = counter+1
+            price = get_db_price(ts+n['epoch'])
+            market_value = round((price * (order_amt/atomic)),2)
+            convert_ts = convert_timestamp((ts+n['epoch']))
+            if i[3] in test_acct:
+                classify = "transfer in"
+            else:
+                classify = "buy"
+            remain = order_amt
+            sender = i[3]
 
-        # add attributes timestamp, total amount, tax lot
-        ts = i[0]
-        # don't include fee in incoming records
-        order_amt = i[1]
-        tax_lot = counter+1
-        price = get_db_price(ts+n['epoch'])
-        market_value = round((price * (order_amt/atomic)),2)
-        convert_ts = convert_timestamp((ts+n['epoch']))
-        if i[3] in test_acct:
-            classify = "transfer in"
-        else:
-            classify = "buy"
-        remain = order_amt
-        sender = i[3]
+            # create order record including
+            t = [tax_lot, ts, order_amt, price, market_value, classify, convert_ts, "open", remain, sender]
 
-        # create order record including
-        t = [tax_lot, ts, order_amt, price, market_value, classify, convert_ts, "open", remain, sender]
-
-        # append to buy_orders
-        orders.append(t)
+            # append to buy_orders
+            orders.append(t)
 
     return orders
 
@@ -95,19 +95,20 @@ def sell(acct):
 def create_sell_records(s):
     sells = []
     for i in s:
-        ts = i[0]
-        # include fees
-        sell_amt = (i[1]+i[2])
-        price = get_db_price(ts+n['epoch'])
-        market_value = round((price *(sell_amt/atomic)),2)
-        convert_ts = convert_timestamp((ts + n['epoch']))
-        receiver = i[3]
+        if i[4] not in exceptions:
+            ts = i[0]
+            # include fees
+            sell_amt = (i[1]+i[2])
+            price = get_db_price(ts+n['epoch'])
+            market_value = round((price *(sell_amt/atomic)),2)
+            convert_ts = convert_timestamp((ts + n['epoch']))
+            receiver = i[3]
 
-        # create sell record including
-        t = [ts, sell_amt, price, market_value, convert_ts, 0, 0, receiver]
+            # create sell record including
+            t = [ts, sell_amt, price, market_value, convert_ts, 0, 0, receiver]
 
-        # append to buy_orders
-        sells.append(t)
+            # append to buy_orders
+            sells.append(t)
 
     return sells
 
