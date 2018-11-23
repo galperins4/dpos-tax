@@ -49,8 +49,14 @@ def get_db_price(ts):
 
 def buy(acct):
     s = "buy"
-    buys = psql.get_transactions(acct, s)
-    buy_orders = create_buy_records(buys)
+    buy_agg=[]
+    for i in acct:
+        buys = psql.get_transactions(i, s)
+        buy_agg.append(buys)
+
+    print(buy_agg)
+    quit()
+    buy_orders = create_buy_records(buys_agg)
 
     return buy_orders
 
@@ -259,8 +265,10 @@ if __name__ == '__main__':
     n = use_network("ark")
     taxdb = TaxDB(n['dbuser'])
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
+    tax(test_acct)
+    '''
     for i in test_acct:
         tax(i)
-
+    '''
     #app.run(host="127.0.0.1", threaded=True)
 
