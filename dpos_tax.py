@@ -58,8 +58,7 @@ def buy(acct):
     for j in buy_orders:
         print(j)
         
-    test = buy_orders.sort(key=lambda x: x[1])
-    print(test)
+    print(sorted(buy_orders, key=lambda x: x[1]))
     quit()
     
     return buy_orders
