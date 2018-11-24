@@ -55,9 +55,6 @@ def buy(acct):
         buy_agg += buys
 
     print(buy_agg)
-    sorted_agg = buy_agg.sort(key=lambda x: x[0])
-    print("")
-    print(sorted_agg)
     quit()
     buy_orders = create_buy_records(buys_agg)
 
