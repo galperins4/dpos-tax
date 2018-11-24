@@ -26,11 +26,7 @@ def tax(acct):
     #return render_template('reports.html', buy = out_buy, sell = out_sell)
 
     #return jsonify(acctDict)
-'''
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-'''
+    
 
 def get_db_price(ts):
     p = taxdb.get_prices().fetchall()
@@ -65,6 +61,20 @@ def buy(acct):
     
     return buy_orders_sort
 
+def sell(acct):
+    s = "sell"
+    sell_agg=[]
+    for i in acct:
+        sells = psql.get_transactions(acct, s)
+        sell_agg += sells
+    
+    sell_orders = create_sell_records(sell_agg)
+    
+    #sort sells
+    sell_orders_sort = sorted(sell_orders, key=lambda x: x[0])
+   
+    return sell_orders_sort
+
 
 def create_buy_records(b):
     orders = []
@@ -95,18 +105,10 @@ def create_buy_records(b):
     return orders
 
 
-def sell(acct):
-    s = "sell"
-    sells = psql.get_transactions(acct, s)
-    sell_orders = create_sell_records(sells)
-
-    return sell_orders
-
-
 def create_sell_records(s):
     sells = []
     for i in s:
-        if i[4] not in exceptions:
+        if i[4] not in exceptions and i[3] not in test_acct:
             ts = i[0]
             # include fees
             sell_amt = (i[1]+i[2])
@@ -191,16 +193,16 @@ def gain_classification(sts, bts):
     return gain
 
 
-def write_csv(b,s, a):
+def write_csv(b,s):
     # buy file
-    b_file = a+"_buys.csv"
+    b_file = "buys.csv"
     with open(b_file, "w") as output:
         fieldnames = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(b)
 
-    s_file = a+"_sells.csv"
+    s_file = "sells.csv"
     with open(s_file, "w") as output:
         fieldnames = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain', 'receipientId']
         writer = csv.writer(output, lineterminator='\n')
@@ -224,7 +226,7 @@ def staking_test(d, b):
         if result == "Yes":
             i[5] = "Staking Reward"
 
-
+            
 def transfer_out_test(a, s):
     for i in s:
         #i[7] is receiverID
@@ -259,10 +261,10 @@ def process_taxes(acct):
     buy_convert(buys)
     sell_convert(sells)
     staking_test(delegates, buys)
-    transfer_out_test(acct, sells)
+    # transfer_out_test(acct, sells)
 
     # output to buy and sell csv
-    write_csv(buys, sells, acct)
+    write_csv(buys, sells)
 
     return buys, sells
 
