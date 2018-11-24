@@ -54,7 +54,7 @@ def buy(acct):
         buys = psql.get_transactions(i, s)
         buy_agg += buys
         
-    buy_orders = create_buy_records(buys_agg)
+    buy_orders = create_buy_records(buy_agg)
     print(buy_orders)
     quit()
     
