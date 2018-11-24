@@ -60,8 +60,12 @@ def buy(acct):
     print("")
     test = sorted(buy_orders, key=lambda x: x[1])
     
+    # sort and reorder lots
+    lot = 1 
     for y in test:
+        y[0] = lot
         print(y)
+        lot+=1
     quit()
     
     return buy_orders
