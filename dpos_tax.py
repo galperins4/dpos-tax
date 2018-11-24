@@ -55,7 +55,8 @@ def buy(acct):
         buy_agg += buys
         
     buy_orders = create_buy_records(buy_agg)
-    print(buy_orders)
+    for j in buy_orders:
+        print(j)
     quit()
     
     return buy_orders
