@@ -52,6 +52,8 @@ def buy(acct):
     buy_agg=[]
     for i in acct:
         buys = psql.get_transactions(i, s)
+        print(buys)
+        print("")
         buy_agg.append(buys)
 
     print(buy_agg)
