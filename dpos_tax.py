@@ -7,7 +7,7 @@ import datetime
 from util.config import use_network
 
 
-test_acct = ["AemV7XRncKLkcJ2BzCv513cXeipmRwhvVM"]
+test_acct = ["AemV7XRncKLkcJ2BzCv513cXeipmRwhvVM", "AUxbZASNE5xgLmnpm4n3EgruJGtJzMYdPv"]
 exceptions = [""]
 atomic = 100000000
 year = 86400 * 365
