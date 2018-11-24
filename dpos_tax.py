@@ -65,7 +65,7 @@ def sell(acct):
     s = "sell"
     sell_agg=[]
     for i in acct:
-        sells = psql.get_transactions(acct, s)
+        sells = psql.get_transactions(i, s)
         sell_agg += sells
     
     sell_orders = create_sell_records(sell_agg)
