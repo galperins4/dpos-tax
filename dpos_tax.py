@@ -7,7 +7,8 @@ import datetime
 from util.config import use_network
 
 
-test_acct = ["AemV7XRncKLkcJ2BzCv513cXeipmRwhvVM", "AUxbZASNE5xgLmnpm4n3EgruJGtJzMYdPv", "AUCrNTmB3sabmPmbv4QUQzcWLKnYRxHRr5"]
+test_acct = [""]
+exchange_acct = [""]
 exceptions = [""]
 atomic = 100000000
 year = 86400 * 365
@@ -226,7 +227,13 @@ def staking_test(d, b):
         if result == "Yes":
             i[5] = "Staking Reward"
 
+def exchange_test(b):
+    for i in b:
+        addr = i[9]
+        if addr in exchange_acct:
+            i[5] = "Buy - From Exchange"
             
+                    
 def transfer_out_test(a, s):
     for i in s:
         #i[7] is receiverID
@@ -261,6 +268,7 @@ def process_taxes(acct):
     buy_convert(buys)
     sell_convert(sells)
     staking_test(delegates, buys)
+    exchange_test(buys)
     # transfer_out_test(acct, sells)
 
     # output to buy and sell csv
@@ -273,6 +281,7 @@ if __name__ == '__main__':
     taxdb = TaxDB(n['dbuser'])
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
     tax(test_acct)
+    
     '''
     for i in test_acct:
         tax(i)
