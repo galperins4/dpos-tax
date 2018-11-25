@@ -8,7 +8,7 @@ from util.config import use_network
 
 
 test_acct = [""]
-exchange_acct = [""]
+exchange_acct = ["AUexKjGtgsSpVzPLs6jNMM6vJ6znEVTQWK", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"]
 exceptions = [""]
 atomic = 100000000
 year = 86400 * 365
