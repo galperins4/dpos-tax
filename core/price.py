@@ -4,19 +4,18 @@ import time
 
 class Price:
     def __init__(self):
-        self.fsym = 'ARK'
         self.tsyms = 'USD,EUR'
         self.url = 'https://min-api.cryptocompare.com/data/pricehistorical'
 
-    def get_market_price(self, ts):
+    def get_market_price(self, ts, ticker):
         # set request params
-        params = {"fsym": self.fsym,
+        params = {"fsym": ticker,
                   "tsyms": self.tsyms,
                   "ts": ts}
 
         try:
             r = requests.get(self.url, params=params)
-            output = [ts, r.json()['ARK']['USD'], r.json()['ARK']['EUR']]
+            output = [ts, r.json()[ticker]['USD'], r.json()[ticker]['EUR']]
         except:
             output = [ts, 0, 0]
     
