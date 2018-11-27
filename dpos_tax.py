@@ -124,6 +124,9 @@ def create_sell_records(s):
 
             # append to buy_orders
             sells.append(t)
+            
+        else:
+            print(i)   
 
     return sells
 
@@ -265,6 +268,7 @@ def process_taxes(acct):
     # do processing
     buys = buy(acct)
     sells = sell(acct)
+    quit()
     lotting(buys, sells)
     buy_convert(buys)
     sell_convert(sells)
@@ -283,9 +287,5 @@ if __name__ == '__main__':
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
     tax(test_acct)
     
-    '''
-    for i in test_acct:
-        tax(i)
-    '''
     #app.run(host="127.0.0.1", threaded=True)
 
