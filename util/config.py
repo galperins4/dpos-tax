@@ -20,7 +20,7 @@ def use_network(network_name):
         'database': settings.get(network_name, 'database'),
         'dbuser': settings.get(network_name, 'dbuser'),
         'dbpassword': settings.get(network_name, 'dbpassword')
-        'ticker': settings.get(network_name, "ticker')
+        'ticker': settings.get(network_name, 'ticker')
     }
 
     return network
