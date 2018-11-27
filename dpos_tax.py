@@ -256,7 +256,6 @@ def process_taxes(acct):
     # do processing
     buys = buy(acct)
     sells = sell(acct)
-    quit()
     lotting(buys, sells)
     buy_convert(buys)
     sell_convert(sells)
