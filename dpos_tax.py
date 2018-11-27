@@ -111,21 +111,23 @@ def create_sell_records(s):
     sells = []
     for i in s:
         if i[4] not in exceptions and i[3] not in test_acct:
-            ts = i[0]
-            # include fees
+            # normal sell
             sell_amt = (i[1]+i[2])
-            price = get_db_price(ts+n['epoch'])
-            market_value = round((price *(sell_amt/atomic)),2)
-            convert_ts = convert_timestamp((ts + n['epoch']))
-            receiver = i[3]
-
-            # create sell record including
-            t = [ts, sell_amt, price, market_value, convert_ts, 0, 0, receiver]
-
-            # append to buy_orders
-            sells.append(t)
         else:
-            print(i)   
+            # transfer out to related acct or excluded tx out. Only count tx fee out
+            sell_amt = (i[2])
+            print(i)  
+            
+        price = get_db_price(ts+n['epoch'])
+        market_value = round((price *(sell_amt/atomic)),2)
+        convert_ts = convert_timestamp((ts + n['epoch']))
+        receiver = i[3]
+
+        # create sell record including
+        t = [ts, sell_amt, price, market_value, convert_ts, 0, 0, receiver]
+
+        # append to buy_orders
+        sells.append(t)    
 
     return sells
 
