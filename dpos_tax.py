@@ -115,9 +115,9 @@ def create_sell_records(s):
             sell_amt = (i[1]+i[2])
         else:
             # transfer out to related acct or excluded tx out. Only count tx fee out
-            sell_amt = (i[2])
-            print(i)  
-            
+            sell_amt = (i[2])  
+        
+        ts = i[0]    
         price = get_db_price(ts+n['epoch'])
         market_value = round((price *(sell_amt/atomic)),2)
         convert_ts = convert_timestamp((ts + n['epoch']))
@@ -238,19 +238,6 @@ def exchange_test(b):
         if addr in exchange_acct:
             i[5] = "Buy - From Exchange"
             
-                    
-def transfer_out_test(a, s):
-    for i in s:
-        #i[7] is receiverID
-        # if account matches - probably sent to self or a vote - exclude
-        if i[7] == a:
-            pass
-        # next pass is to see if it's a related account. If yes, 0 out sell record since it's a transfer out
-        else:
-            if i[7] in test_acct:
-                i[5]=0
-                i[6]=0
-            
 
 def delegate_check(d, check):
    test = "No"
@@ -275,7 +262,6 @@ def process_taxes(acct):
     sell_convert(sells)
     staking_test(delegates, buys)
     exchange_test(buys)
-    # transfer_out_test(acct, sells)
 
     # output to buy and sell csv
     write_csv(buys, sells)
