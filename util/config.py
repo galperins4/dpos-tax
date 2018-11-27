@@ -20,6 +20,7 @@ def use_network(network_name):
         'database': settings.get(network_name, 'database'),
         'dbuser': settings.get(network_name, 'dbuser'),
         'dbpassword': settings.get(network_name, 'dbpassword')
+        'ticker': settings.get(network_name, "ticker')
     }
 
     return network
@@ -41,6 +42,7 @@ def set_custom_network(epoch, database, dbpassword):
         database (str): chains database
         dbuser (str): chains database user
         database password (str): chains database password
+        ticker (str): ticker symbol
     """
     section_name = 'custom'
     if section_name not in settings.sections():
@@ -49,3 +51,5 @@ def set_custom_network(epoch, database, dbpassword):
     settings.set(section_name, 'database', str(database))
     settings.set(section_name, 'database', str(dbuser))
     settings.set(section_name, 'dbpassword', str(dbpassword))
+    settings.set(section_name, 'ticker', str(ticker))
+                               
