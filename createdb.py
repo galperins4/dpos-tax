@@ -28,5 +28,5 @@ if __name__ == "__main__":
         timestamps = get_timestamps(newEpoch, t)
 
         for i in timestamps:
-            price = [p.get_market_price(i)]
+            price = [p.get_market_price(i, n['ticker'])]
             taxdb.update_prices(price)
