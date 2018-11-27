@@ -19,7 +19,7 @@ def use_network(network_name):
         'epoch': int(settings.get(network_name, 'epoch')),
         'database': settings.get(network_name, 'database'),
         'dbuser': settings.get(network_name, 'dbuser'),
-        'dbpassword': settings.get(network_name, 'dbpassword')
+        'dbpassword': settings.get(network_name, 'dbpassword'),
         'ticker': settings.get(network_name, 'ticker')
     }
 
