@@ -5,6 +5,7 @@ from core.psql import DB
 import csv
 import datetime
 from util.config import use_network
+import sys
 
 
 test_acct = [""]
@@ -268,7 +269,8 @@ def process_taxes(acct):
     return buys, sells
 
 if __name__ == '__main__':
-    n = use_network("ark")
+    option = sys.argv[1]
+    n = use_network(option)
     taxdb = TaxDB(n['dbuser'])
     psql = DB(n['database'], n['dbuser'], n['dbpassword'])
     tax(test_acct)
