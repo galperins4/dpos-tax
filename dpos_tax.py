@@ -200,7 +200,7 @@ def gain_classification(sts, bts):
     return gain
 
 
-def write_csv(b,s):
+def write_csv(b,s, a):
     # buy file
     b_file = "buys.csv"
     with open(b_file, "w") as output:
@@ -215,6 +215,13 @@ def write_csv(b,s):
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
         writer.writerows(s)
+        
+    a_file = "summary.csv"
+    with open(a_file,"w") as output:
+        fieldnames = ['year', 'income', 'short term', 'long term']
+        writer = csv.writer(output, lineterminator='\n')
+        writer.writerow(fieldnames)
+        writer.writerows(a)
 
 def buy_convert(b):
     for i in b:
@@ -251,6 +258,40 @@ def delegate_check(d, check):
    return test
 
 
+def summarize(b,s):
+    year1 = {"income":0, "short":0, "long":0}
+    year2 = {"income":0, "short":0, "long":0}
+    income = ['Staking Reward','buy']
+    twoeighteen = 1514786400
+    twonineteen = 1546322400
+    
+    for i in b:
+        if (i[1]+n['epoch']) < twoeighteen:
+            #2017 income
+            if i[5] in income:
+                year1['income']+=i[4] 
+        elif (i[1]+n['epoch']) < twonineteen:
+            if i[5] in income:
+                year2['income']+=i[4]
+        else:
+            pass
+      
+    for j in s:
+        if (j[0]+n['epoch']) < twoeighteen:
+            #2017 trading
+            year1['short']+=j[5]
+            year1['long']+=j[6]
+        elif (j[0]+n['epoch']) < twonineteen:
+            year2['short']+=j[5]
+            year2['long']+=j[6]
+    
+    sum_year1 = ["2017",round(year1['income'],2),round(year1['short'],2),round(year1['long'],2)]
+    sum_year2 = ["2018",round(year2['income'],2),round(year2['short'],2),round(year2['long'],2)]
+    
+    years = [sum_year1, sum_year2]
+    return years
+
+  
 def process_taxes(acct):
     delegates = taxdb.get_delegates().fetchall()
 
@@ -262,9 +303,10 @@ def process_taxes(acct):
     sell_convert(sells)
     staking_test(delegates, buys)
     exchange_test(buys)
+    agg_years = summarize(buys,sells)
 
     # output to buy and sell csv
-    write_csv(buys, sells)
+    write_csv(buys, sells, agg_years)
 
     return buys, sells
 
