@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 #@app.route("/api/<acct>")
 def tax(acct):
-    out_buy, out_sell = process_taxes(acct)
+    out_buy, out_sell, out_tax = process_taxes(acct)
     buy_cols = ['tax lot', 'timestamp', 'buy amount', 'price', 'market value', 'tx type', 'datetime', 'lot status', 'remaining_qty', 'senderId']
     sell_cols = ['timestamp', 'sell amount', 'price', 'market value', 'datetime', 'st-gain', 'lt-gain', 'recipientId']
     acctDict = {"Buys": {"columns": buy_cols, "data":out_buy},
@@ -136,9 +136,12 @@ def create_sell_records(s):
 def convert_timestamp(ts):
     return datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
-
+def short_ts(ts):
+    return datetime.datetime.fromtimestamp((ts+n['epoch'])).strftime('%Y-%m-%d')
+  
+  
 def lotting(b,s):
-
+    tform = []
     for i in s:
         # initialize cap gains
         short_cap_gain = 0
@@ -161,6 +164,12 @@ def lotting(b,s):
                 else:
                     long_cap_gain += cap_gain
 
+                # update tform
+                tmp = [(lot_quantity/atomic), network, short_ts(j[1]), short_ts(i[0]), 
+                       (sold_price*(lot_quantity/atomic)), (j[3]*(lot_quantity/atomic)), round(cap_gain,2), gain_type]
+                tform.append(tmp)
+                               
+                
                 # update lot - zero out and status
                 j[8] -= lot_quantity
                 j[7] = "lot sold"
@@ -178,6 +187,11 @@ def lotting(b,s):
                 else:
                     long_cap_gain += cap_gain
 
+                # update tform
+                tmp = [(sold_quantity/atomic), network, short_ts(j[1]), short_ts(i[0]), 
+                       (sold_price*(sold_quantity/atomic)), (j[3]*(sold_quantity/atomic)), round(cap_gain,2), gain_type]
+                tform.append(tmp)
+                
                 # update lot and status
                 j[8] -= sold_quantity
                 if j[8] == 0:
@@ -189,7 +203,8 @@ def lotting(b,s):
         # update capital gains for sell record
         i[5] += round(short_cap_gain,2)
         i[6] += round(long_cap_gain,2)
-
+    
+    return tform
 
 def gain_classification(sts, bts):
     if (sts - bts) >= year:
@@ -200,7 +215,7 @@ def gain_classification(sts, bts):
     return gain
 
 
-def write_csv(b,s, a):
+def write_csv(b,s,a,t):
     # buy file
     b_file = "buys.csv"
     with open(b_file, "w") as output:
@@ -221,7 +236,14 @@ def write_csv(b,s, a):
         fieldnames = ['year', 'income', 'short term', 'long term']
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(fieldnames)
-        writer.writerows(a)
+        writer.writerows(a)     
+        
+    t_file = "8949.csv"
+    with open(t_file,"w") as output:
+        fieldnames = ['Amount', 'Token', 'Date Acquired', 'Date Sold', 'Proceeds', 'Cost Basis', 'Gain or Loss', 'Type']
+        writer = csv.writer(output, lineterminator='\n')
+        writer.writerow(fieldnames)
+        writer.writerows(t)
 
 def buy_convert(b):
     for i in b:
@@ -304,7 +326,7 @@ def process_taxes(acct):
     # do processing
     buys = buy(acct)
     sells = sell(acct)
-    lotting(buys, sells)
+    tax_form = lotting(buys, sells)
     buy_convert(buys)
     sell_convert(sells)
     staking_test(delegates, buys)
@@ -312,9 +334,9 @@ def process_taxes(acct):
     agg_years = summarize(buys,sells)
 
     # output to buy and sell csv
-    write_csv(buys, sells, agg_years)
+    write_csv(buys, sells, agg_years, tax_form)
 
-    return buys, sells
+    return buys, sells, tax_form
 
 if __name__ == '__main__':
     option = sys.argv[1]
