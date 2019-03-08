@@ -165,7 +165,7 @@ def lotting(b,s):
                     long_cap_gain += cap_gain
 
                 # update tform
-                tmp = [(lot_quantity/atomic), network, short_ts(j[1]), short_ts(i[0]), 
+                tmp = [(lot_quantity/atomic), option, short_ts(j[1]), short_ts(i[0]), 
                        (sold_price*(lot_quantity/atomic)), (j[3]*(lot_quantity/atomic)), round(cap_gain,2), gain_type]
                 tform.append(tmp)
                                
@@ -188,7 +188,7 @@ def lotting(b,s):
                     long_cap_gain += cap_gain
 
                 # update tform
-                tmp = [(sold_quantity/atomic), network, short_ts(j[1]), short_ts(i[0]), 
+                tmp = [(sold_quantity/atomic), option, short_ts(j[1]), short_ts(i[0]), 
                        (sold_price*(sold_quantity/atomic)), (j[3]*(sold_quantity/atomic)), round(cap_gain,2), gain_type]
                 tform.append(tmp)
                 
